@@ -2,78 +2,24 @@
   <div>
     <div class="flex justify-between">
       <div class="flex align-center margin-bottom">
-        <el-button
-          type="info"
-          icon="el-icon-refresh-right"
-          size="mini"
-          v-if="showFresh"
-          @click="fresh()"
-        ></el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="mini"
-          v-if="showAdd"
-          @click="addFile()"
-          >添加</el-button
-        >
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          size="mini"
-          v-if="showEdit"
-          @click="editItem()"
-          :disabled="multipleSelection.length === 0"
-          >编辑</el-button
-        >
-        <el-button
-          type="danger"
-          icon="el-icon-delete"
-          size="mini"
-          v-if="showDelete"
-          :disabled="multipleSelection.length === 0"
-          @click="deleteData()"
-          >删除</el-button
-        >
-        <el-button
-          type="primary"
-          icon="el-icon-right"
-          size="mini"
-          v-if="showGroup"
-          :disabled="multipleSelection.length === 0"
-          @click="groupClassify()"
-          >归类</el-button
-        >
+        <el-button type="info" icon="el-icon-refresh-right" size="mini" v-if="showFresh" @click="fresh()"></el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini" v-if="showAdd" @click="addFile()">添加</el-button>
+        <el-button type="primary" icon="el-icon-edit" size="mini" v-if="showEdit" @click="editItem()"
+          :disabled="multipleSelection.length === 0">编辑</el-button>
+        <el-button type="danger" icon="el-icon-delete" size="mini" v-if="showDelete"
+          :disabled="multipleSelection.length === 0" @click="deleteData()">删除</el-button>
+        <el-button type="primary" icon="el-icon-right" size="mini" v-if="showGroup"
+          :disabled="multipleSelection.length === 0" @click="groupClassify()">归类</el-button>
       </div>
     </div>
-    <el-table
-      ref="multipleTable"
-      v-bind="$attrs"
-      :data="tableData"
-      border
-      tooltip-effect="dark"
-      :row-key="(row) => row.id"
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table ref="multipleTable" v-bind="$attrs" :data="tableData" border tooltip-effect="dark"
+      :row-key="(row) => row.id" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"> </el-table-column>
       <template v-for="(item, index) in colums">
         <slot v-if="item.slot" :name="item.slot" />
-        <el-table-column
-          :key="index"
-          v-bind="item"
-          :prop="item.key"
-          :sortable="item.sortable"
-          :fixed="item.fixed"
-        >
+        <el-table-column :key="index" v-bind="item" :prop="item.key" :sortable="item.sortable" :fixed="item.fixed">
           <template slot-scope="scope">
-            <ex-slot
-              v-if="item.render"
-              :render="item.render"
-              :row="scope.row"
-              :index="scope.$index"
-              :column="item"
-            />
+            <ex-slot v-if="item.render" :render="item.render" :row="scope.row" :index="scope.$index" :column="item" />
             <span v-else>{{ scope.row[item.key] }}</span>
           </template>
         </el-table-column>
@@ -82,7 +28,7 @@
   </div>
 </template>
   
-  <script>
+<script>
 var exSlot = {
   functional: true,
   props: {
@@ -137,7 +83,7 @@ export default {
     return {
       multipleSelection: [],
     };
-  }, 
+  },
   mounted() {
     // this.$nextTick(function () {
     //   this.selectData.forEach((key) => {
