@@ -175,7 +175,7 @@ export default {
       // 校验规则
       rules: {
         fatherId: [
-          { required: true, message: "请选择父级id", trigger: "change" },
+          { required: false, message: "请选择父级id", trigger: "change" },
         ],
         name: [{ required: true, message: "请输入分类名称", trigger: "blur" }],
         categoryImg: [

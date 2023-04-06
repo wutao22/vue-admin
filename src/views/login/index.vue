@@ -119,8 +119,8 @@ export default {
           }).then(
             (res) => {
               if (res.data.code === 200) {
-                this.$router.push("/dashboard");
                 localStorage.setItem("token", res.data.token);
+                this.$router.push("/dashboard");
               } else {
                 this.$message.error(res.data.message);
                 this.loading = false

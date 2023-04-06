@@ -44,7 +44,6 @@ export default {
   },
   mounted() {
     let userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    console.log(userInfo)
     this.avatar =  userInfo.avatar
   },
   computed: {

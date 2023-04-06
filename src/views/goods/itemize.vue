@@ -319,7 +319,7 @@ export default {
         name: [
           { required: true, message: "请选择关联类型", trigger: "change" },
         ],
-        faId: [{ required: true, message: "请选择父id", trigger: "change" }],
+        faId: [{ required: false, message: "请选择父id", trigger: "change" }],
         imgUrl: [
           { required: true, message: "请填写上传图片地址", trigger: "blur" },
         ],
@@ -462,10 +462,11 @@ export default {
               },
               data: data,
             }).then((res) => {
+              console.log(res)
               if (res.data.code === 200) {
                 this.showSuccess();
                 this.queryData();
-                this.showEdit = false;
+                this.showAdd = false;
                 this.disabled = false
               }
             });
@@ -493,7 +494,7 @@ export default {
               if (res.data.code === 200) {
                 this.showSuccess();
                 this.queryData();
-                this.showAdd = false;
+                this.showEdit = false;
                 this.disabled = false
               }
             });

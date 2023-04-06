@@ -1,15 +1,12 @@
 <template>
   <div>
     <el-card>
-      <div
-        style="
-          font-size: 18px;
-          font-weight: 600;
-          border-bottom: 3px solid #2f80ed;
-          width: 80px;
-        "
-        class="padding-tb-sm"
-      >
+      <div style="
+                    font-size: 18px;
+                    font-weight: 600;
+                    border-bottom: 3px solid #2f80ed;
+                    width: 80px;
+                  " class="padding-tb-sm">
         基础配置
       </div>
       <div class="margin-top-lg">
@@ -17,115 +14,84 @@
           注意事项：下面表单需是整数填入非整数时会自动更新为整数,需是数字会自动保存两位小数
         </div> -->
         <div>
-          <el-form
-            label-position="left"
-            v-for="(item, index) in config"
-            :key="item.id"
-          >
-            <el-form-item
-              :label="item.title"
-              :label-width="formLabelWidth"
-              v-if="
-                item.title !== '会员收费管理' && item.title !== '客服二维码'
-              "
-              :class="{ 'bg-gray': index % 2 == 0 }"
-            >
-              <el-input
-                v-model="item.value"
-                :type="
-                  item.id == 28 ||
+          <el-form label-position="left" v-for="(item, index) in config" :key="item.id">
+            <el-form-item :label="item.title" :label-width="formLabelWidth" v-if="
+              item.title !== '会员收费管理' && item.title !== '客服二维码' && item.title !== '商城积分管理'
+            " :class="{ 'bg-gray': index % 2 == 0 }">
+              <el-input v-model="item.value" :type="
+                item.id == 28 ||
                   item.id == 29 ||
                   item.id == 30 ||
                   item.id == 33
-                    ? 'textarea'
-                    : 'input'
-                "
-                autocomplete="off"
-              ></el-input>
+                  ? 'textarea'
+                  : 'input'
+              " autocomplete="off"></el-input>
+              <span class="margin-lr" style="color: #2f80ed;"
+                v-if="item.title === '每日签到返还冻结盒子数量'">连续七天签到每日解冻盒子数，用英文逗号分隔</span>
             </el-form-item>
-            <el-form-item
-              label="会员收费管理"
-              v-if="item.title === '会员收费管理'"
-              :label-width="formLabelWidth"
-              class="bg-gray"
-            >
+            <el-form-item label="积分兑换管理" v-if="item.title === '商城积分管理'" :label-width="formLabelWidth" class="bg-gray">
+              <div class="flex">
+                <div>
+                  <div class="flex">
+                    <div>商城类型</div>
+                    <div class="margin-left-xxl">积分剩余</div>
+                  </div>
+                  <div class="flex align-center" v-for="(key, value, index) in item.zuserFeesResult" :key="index">
+                    <el-form-item :label="
+                      value == 'monthly'
+                        ? '开心抢兑'
+                        : value == 'quarter'
+                          ? '盲果商城'
+                          : value == 'year'
+                            ? '普通商城'
+                            : ''
+                    " label-width="70px">
+                      <input autocomplete="off" type="number" :min="0" :max="1000000000"
+                        v-model="item.zuserFeesResult[value]" class="vipInput margin-left-xl" />
+                    </el-form-item>
+                  </div>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item label="会员收费管理" v-if="item.title === '会员收费管理'" :label-width="formLabelWidth" class="bg-gray">
               <div class="flex">
                 <div>
                   <div class="flex">
                     <div>会员类型</div>
                     <div class="margin-left-xxl">会员费用</div>
                   </div>
-                  <div
-                    class="flex align-center"
-                    v-for="(key, value, index) in item.zuserFeesResult"
-                    :key="index"
-                  >
-                    <el-form-item
-                      :label="
-                        value == 'monthly'
-                          ? '月度'
-                          : value == 'quarter'
+                  <div class="flex align-center" v-for="(key, value, index) in item.zuserFeesResult" :key="index">
+                    <el-form-item :label="
+                      value == 'monthly'
+                        ? '月度'
+                        : value == 'quarter'
                           ? '季度'
                           : value == 'year'
-                          ? '年度'
-                          : ''
-                      "
-                      label-width="40px"
-                    >
-                      <input
-                        autocomplete="off"
-                        type="number"
-                        :min="0"
-                        :max="10000"
-                        v-model="item.zuserFeesResult[value]"
-                        class="vipInput margin-left-xxl"
-                      />
+                            ? '年度'
+                            : ''
+                    " label-width="40px">
+                      <input autocomplete="off" type="number" :min="0" :max="10000" v-model="item.zuserFeesResult[value]"
+                        class="vipInput margin-left-xxl" />
                     </el-form-item>
                   </div>
                 </div>
               </div>
             </el-form-item>
             <div>
-              <el-form-item
-                label="客服二维码"
-                v-if="item.title === '客服二维码'"
-                :label-width="formLabelWidth"
-                class="bg-gray"
-              >
+              <el-form-item label="客服二维码" v-if="item.title === '客服二维码'" :label-width="formLabelWidth">
                 <div class="flex">
-                  <el-input
-                    v-model="fileUrl"
-                    style="width: 500px !important"
-                    disabled
-                  ></el-input>
-                  <el-upload
-                    class="avatar-uploader"
-                    action="#"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload"
-                  >
+                  <el-input v-model="fileUrl" style="width: 500px !important" disabled></el-input>
+                  <el-upload class="avatar-uploader" action="#" :show-file-list="false" :on-success="handleAvatarSuccess"
+                    :before-upload="beforeAvatarUpload">
                     <div class="flex margin-left">
-                      <el-button size="small" type="primary"
-                        >点击上传</el-button
-                      >
-                      <el-button
-                        size="small"
-                        type="info"
-                        @click.stop="chooseFile()"
-                        >点击选择</el-button
-                      >
+                      <el-button size="small" type="primary">点击上传</el-button>
+                      <el-button size="small" type="info" @click.stop="chooseFile()">点击选择</el-button>
                       <input type="file" ref="file" />
                     </div>
                   </el-upload>
                 </div>
                 <div>
-                  <img
-                    :src="fileUrl"
-                    alt=""
-                    style="width: 120px; height: 120px"
-                    class="margin-tb"
-                  />
+                  <img :src="fileUrl" alt="" style="width: 120px; height: 120px" class="margin-tb" />
                 </div>
               </el-form-item>
             </div>
@@ -140,11 +106,7 @@
       </div>
     </el-card>
     <!-- 子表格 -->
-    <chooseTable
-      :show="showTableModal"
-      @close="close"
-      @selectItem="selectItem"
-    ></chooseTable>
+    <chooseTable :show="showTableModal" @close="close" @selectItem="selectItem"></chooseTable>
   </div>
 </template>
 
@@ -178,12 +140,14 @@ export default {
   methods: {
     queryConfig() {
       this.get("/banner/config").then((res) => {
-        this.config = res.data;
-        this.config.forEach((item) => {
-          if (item.title === "客服二维码") {
-            this.fileUrl = item.value;
-          }
-        });
+        if (res.data) {
+          this.config = res.data;
+          this.config.forEach((item) => {
+            if (item.title === "客服二维码") {
+              this.fileUrl = item.value;
+            }
+          });
+        }
       });
     },
     // 上传客服二维码
@@ -224,7 +188,7 @@ export default {
     chooseFile() {
       this.showTableModal = true;
     },
-    close() {},
+    close() { },
     // 选中子表格数据
     selectItem(url) {
       this.fileUrl = url;
@@ -302,23 +266,28 @@ export default {
   padding: 6px 20px;
   border-radius: 4px;
 }
+
 .uploadInput {
   width: 400px !important;
   margin-right: 10px;
   height: 40px !important;
 }
+
 .el-input,
 .el-textarea__inner,
 .el-textarea {
   width: 800px !important;
 }
+
 .el-form-item__label {
   text-align: justify !important;
 }
+
 .bg-gray {
   background: #f9f9f9;
   padding: 8px 0;
 }
+
 .el-form-item {
   margin-bottom: 8px;
   padding: 0 8px;

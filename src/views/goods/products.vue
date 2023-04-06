@@ -2,119 +2,53 @@
   <el-card>
     <!-- 搜索条件 -->
     <div class="flex justify-between">
-      <el-form
-        ref="condition"
-        :model="condition"
-        class="flex padding-top margin-right flex-wrap align-center"
-        label-position="left"
-      >
+      <el-form ref="condition" :model="condition" class="flex padding-top margin-right flex-wrap align-center"
+        label-position="left">
         <el-form-item label="一级分类" label-width="80px" multiple prop="type">
-          <el-select
-            placeholder="请选择"
-            v-model="condition.cidOne"
-            clearable
-            @change="queryconditionTwo()"
-            size="small"
-            style="width: 200px"
-          >
-            <el-option
-              :label="item.name"
-              :value="item.id"
-              v-for="(item, index) in groupOne"
-              :key="index"
-            ></el-option>
+          <el-select placeholder="请选择" v-model="condition.cidOne" clearable @change="queryconditionTwo()" size="small"
+            style="width: 200px">
+            <el-option :label="item.name" :value="item.id" v-for="(item, index) in groupOne" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="二级分类" label-width="80px" multiple prop="type">
-          <el-select
-            placeholder="请选择"
-            v-model="condition.cidTwo"
-            clearable
-            size="small"
-          >
-            <el-option
-              :label="item.name"
-              :value="item.id"
-              v-for="(item, index) in groupTwo"
-              :key="index"
-            ></el-option>
+          <el-select placeholder="请选择" v-model="condition.cidTwo" clearable size="small">
+            <el-option :label="item.name" :value="item.id" v-for="(item, index) in groupTwo" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品名称" label-width="80px" class="margin-lr">
-          <el-input
-            size="small"
-            v-model="condition.name"
-            placeholder="请输入产品名称"
-          ></el-input>
+          <el-input size="small" v-model="condition.name" placeholder="请输入产品名称"></el-input>
         </el-form-item>
         <el-form-item label="添加时间" label-width="80px">
-          <el-date-picker
-            v-model="condition.time"
-            type="daterange"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            size="small"
-            style="width: 250px"
-            @change="changeTime()"
-          >
+          <el-date-picker v-model="condition.time" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
+            start-placeholder="开始日期" end-placeholder="结束日期" size="small" style="width: 250px" @change="changeTime()">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="上/下架" label-width="80px">
-          <el-select
-            placeholder="请选择"
-            v-model="condition.status"
-            @change="queryData()"
-            clearable
-            size="small"
-          >
+          <el-select placeholder="请选择" v-model="condition.status" @change="queryData()" clearable size="small">
             <el-option label="上架" value="2"></el-option>
             <el-option label="下架" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="推荐状态" label-width="80px">
-          <el-select
-            placeholder="请选择状态"
-            v-model="condition.recommendStatus"
-            @change="queryData()"
-            clearable
-            size="small"
-          >
+          <el-select placeholder="请选择状态" v-model="condition.recommendStatus" @change="queryData()" clearable size="small">
             <el-option label="推荐" value="2"></el-option>
             <el-option label="不推荐" value="1"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div class="flex justify-center align-center">
-        <el-button type="primary" size="small" @click="queryData()"
-          >搜索</el-button
-        >
+        <el-button type="primary" size="small" @click="queryData()">搜索</el-button>
         <el-button type="info" size="small" @click="reset()">重置</el-button>
       </div>
     </div>
-    <Table
-      :tableData="data"
-      :colums="colums"
-      :showFresh="true"
-      :showAdd="true"
-      :showDelete="true"
-      @deleteItem="deleteItem"
-      @addFile="addFile"
-      @fresh="queryData"
-    >
+    <Table :tableData="data" :colums="colums" :showFresh="true" :showAdd="true" :showDelete="true"
+      @deleteItem="deleteItem" @addFile="addFile" @fresh="queryData">
       <template v-slot:carouselImage>
         <el-table-column label="盲盒产品轮播图" min-width="180px">
           <template slot-scope="scope">
             <span class="flex flex-wrap">
-              <img
-                :src="item"
-                class="margin-lr-sm margin-tb-sm"
-                style="width: 40px; height: 40px"
-                v-for="(item, index) in scope.row.carouselImage.split(',')"
-                :key="index"
-                @click="previewImg(item)"
-              />
+              <img :src="item" class="margin-lr-sm margin-tb-sm" style="width: 40px; height: 40px"
+                v-for="(item, index) in scope.row.carouselImage.split(',')" :key="index" @click="previewImg(item)" />
             </span>
           </template>
         </el-table-column>
@@ -122,103 +56,45 @@
       <template v-slot:operation>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editItem(scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              type="text"
-              size="small"
-              slot="reference"
-              @click="deleteItem(scope.row.id)"
-              >删除</el-button
-            >
+            <el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" slot="reference" @click="deleteItem(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </template>
       <template v-slot:status>
         <el-table-column label="上/下架">
           <template slot-scope="scope">
-            <el-switch
-              :value="scope.row.status"
-              :active-value="2"
-              :inactive-value="1"
-              @change="changeStatus(scope.row)"
-            ></el-switch>
+            <el-switch :value="scope.row.status" :active-value="2" :inactive-value="1"
+              @change="changeStatus(scope.row)"></el-switch>
           </template>
         </el-table-column>
       </template>
       <template v-slot:recommendStatus>
         <el-table-column label="推荐状态">
           <template slot-scope="scope">
-            <el-switch
-              :value="scope.row.recommendStatus"
-              :active-value="2"
-              :inactive-value="1"
-              @change="changeReStatus(scope.row)"
-            ></el-switch>
+            <el-switch :value="scope.row.recommendStatus" :active-value="2" :inactive-value="1"
+              @change="changeReStatus(scope.row)"></el-switch>
           </template>
         </el-table-column>
       </template>
     </Table>
     <div class="block margin-top flex justify-end">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page.current"
-        :page-sizes="[5, 10, 20, 40]"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.current"
+        :page-sizes="[5, 10, 20, 40]" :page-size="page.size" layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total">
       </el-pagination>
     </div>
     <!-- 添加 -->
-    <el-dialog
-      title="添加"
-      :visible.sync="showAdd"
-      @closed="closed()"
-      @open="queryGoods()"
-    >
+    <el-dialog title="添加" :visible.sync="showAdd" @closed="closed()" @open="queryGoods()">
       <el-form :model="form" :rules="rules" ref="form">
-        <el-form-item
-          label="一级分类"
-          label-width="90px"
-          multiple
-          prop="cidOne"
-        >
-          <el-select
-            placeholder="请选择"
-            v-model="form.cidOne"
-            clearable
-            style="width: 300px"
-            @change="queryTwo()"
-          >
-            <el-option
-              :label="item.name"
-              :value="item.id"
-              v-for="(item, index) in groupOne"
-              :key="index"
-            ></el-option>
+        <el-form-item label="一级分类" label-width="90px" multiple prop="cidOne">
+          <el-select placeholder="请选择" v-model="form.cidOne" clearable style="width: 300px" @change="queryTwo()">
+            <el-option :label="item.name" :value="item.id" v-for="(item, index) in groupOne" :key="index"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          label="二级分类"
-          label-width="90px"
-          multiple
-          prop="cidTwo"
-        >
-          <el-select
-            placeholder="请选择"
-            v-model="form.cidTwo"
-            clearable
-            style="width: 300px"
-          >
-            <el-option
-              :label="item.name"
-              :value="item.id"
-              v-for="(item, index) in groupTwo"
-              :key="index"
-            ></el-option>
+        <el-form-item label="二级分类" label-width="90px" multiple prop="cidTwo">
+          <el-select placeholder="请选择" v-model="form.cidTwo" clearable style="width: 300px">
+            <el-option :label="item.name" :value="item.id" v-for="(item, index) in groupTwo" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品名称" label-width="90px" prop="name">
@@ -227,94 +103,49 @@
         <div>
           <div class="flex">
             <el-form-item label="产品缩略图" class="flex" prop="thumbnailImage">
-              <el-input
-                v-model="form.thumbnailImage"
-                style="width: 300px"
-              ></el-input>
+              <el-input v-model="form.thumbnailImage" style="width: 300px"></el-input>
             </el-form-item>
             <div class="margin-left">
-              <input
-                type="file"
-                ref="file"
-                style="display: none"
-                v-on:change="uploadFile($event, 1)"
-              />
-              <el-button type="primary" @click="$refs.file.click()"
-                >上传</el-button
-              >
+              <input type="file" ref="file" style="display: none" v-on:change="uploadFile($event, 1)" />
+              <el-button type="primary" @click="$refs.file.click()">上传</el-button>
             </div>
             <div class="margin-left">
               <el-button type="info" @click="chooseGoods(1)">选择</el-button>
             </div>
           </div>
           <div style="margin-left: 13%">
-            <img
-              v-if="form.thumbnailImage"
-              :src="form.thumbnailImage"
-              alt=""
-              style="width: 100px; height: 100px"
-            />
+            <img v-if="form.thumbnailImage" :src="form.thumbnailImage" alt="" style="width: 100px; height: 100px" />
           </div>
         </div>
 
         <div>
           <div class="flex">
             <el-form-item label="产品轮播图" class="flex" prop="carouselImage">
-              <el-input
-                v-model="form.carouselImage"
-                style="width: 300px"
-              ></el-input>
+              <el-input v-model="form.carouselImage" style="width: 300px"></el-input>
             </el-form-item>
             <div class="margin-left">
-              <input
-                type="file"
-                ref="files"
-                style="display: none"
-                multiple="multiple"
-                v-on:change="uploadFile($event, 2)"
-              />
-              <el-button type="primary" @click="$refs.files.click()"
-                >上传</el-button
-              >
+              <input type="file" ref="files" style="display: none" multiple="multiple"
+                v-on:change="uploadFile($event, 2)" />
+              <el-button type="primary" @click="$refs.files.click()">上传</el-button>
             </div>
             <div class="margin-left">
               <el-button type="info" @click="chooseGoods(2)">选择</el-button>
             </div>
           </div>
-          <div
-            class="flex align-center flex-wrap"
-            style="margin-left: 10% !important"
-          >
-            <div
-              class="flex margin-lr-sm"
-              style="align-items: baseline"
-              v-for="(item, index) in fileListImg"
-              :key="index"
-            >
+          <div class="flex align-center flex-wrap" style="margin-left: 10% !important">
+            <div class="flex margin-lr-sm" style="align-items: baseline" v-for="(item, index) in fileListImg"
+              :key="index">
               <div class="flex flex-direction">
-                <img
-                  v-if="item"
-                  :src="item"
-                  class=""
-                  alt=""
-                  style="width: 100px; height: 100px"
-                />
-                <div
-                  style="
-                    background-color: #409eff;
-                    opacity: 0.6;
-                    width: 100px;
-                    height: 20px;
-                    margin-bottom: 10px;
-                    border-radius: 4px;
-                  "
-                  class="flex justify-center align-center"
-                  @click="removeImage(item, index)"
-                >
-                  <i
-                    class="el-icon-delete"
-                    style="color: white; text-align: center"
-                  />
+                <img v-if="item" :src="item" class="" alt="" style="width: 100px; height: 100px" />
+                <div style="
+                        background-color: #409eff;
+                        opacity: 0.6;
+                        width: 100px;
+                        height: 20px;
+                        margin-bottom: 10px;
+                        border-radius: 4px;
+                      " class="flex justify-center align-center" @click="removeImage(item, index)">
+                  <i class="el-icon-delete" style="color: white; text-align: center" />
                 </div>
               </div>
             </div>
@@ -333,86 +164,39 @@
           <div class="flex justify-around w6 margin-left-xl">
             <div>
               规格ID
-              <span style="color: #ed4343e6; font-size: 12px"
-                >(规格ID不可重复)</span
-              >
+              <span style="color: #ed4343e6; font-size: 12px">(规格ID不可重复)</span>
             </div>
             <div>参考价格</div>
             <div>盒子数量</div>
             <div>库存</div>
           </div>
-          <div
-            class="flex justify-around w6"
-            style="margin-left: 85px"
-            v-for="(item, index) in specList"
-            :key="index"
-          >
-            <el-input
-              v-model="item.spec"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
-            <el-input
-              v-model="item.price"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
-            <el-input
-              v-model="item.box_num"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
-            <el-input
-              v-model="item.stock"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
+          <div class="flex justify-around w6" style="margin-left: 85px" v-for="(item, index) in specList" :key="index">
+            <el-input v-model="item.spec" size="small" class="margin-lr-sm"></el-input>
+            <el-input v-model="item.price" size="small" class="margin-lr-sm"></el-input>
+            <el-input v-model="item.box_num" size="small" class="margin-lr-sm"></el-input>
+            <el-input v-model="item.stock" size="small" class="margin-lr-sm"></el-input>
             <div class="flex">
-              <i
-                class="el-icon-delete margin-top margin-left"
-                style="font-size: 18px"
-                @click="deleteColums(item, index)"
-              ></i>
+              <i class="el-icon-delete margin-top margin-left" style="font-size: 18px"
+                @click="deleteColums(item, index)"></i>
             </div>
           </div>
           <div>
-            <el-button
-              type="primary"
-              size="mini"
-              class="margin-sm"
-              style="margin-left: 90px"
-              @click="addToColums()"
-              >追加</el-button
-            >
+            <el-button type="primary" size="mini" class="margin-sm" style="margin-left: 90px"
+              @click="addToColums()">追加</el-button>
           </div>
         </el-form-item>
         <el-form-item label="出售开始时间" prop="startTime">
-          <el-date-picker
-            style="width: 300px"
-            v-model="form.startTime"
-            type="datetime"
-            format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-          >
+          <el-date-picker style="width: 300px" v-model="form.startTime" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="出售结束时间" prop="endTime">
-          <el-date-picker
-            v-model="form.endTime"
-            style="width: 300px"
-            type="datetime"
-            format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-          >
+          <el-date-picker v-model="form.endTime" style="width: 300px" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="图文详情" prop="content">
-          <quill-editor
-            ref="text"
-            v-model="form.content"
-            class="editor margin-left-xxl"
-            style="height: 300px"
-          />
+          <quill-editor ref="text" v-model="form.content" class="editor margin-left-xxl" style="height: 300px" />
         </el-form-item>
         <el-form-item label="上/下架" class="margin-top-xxl">
           <el-radio v-model="form.status" :label="1">下架</el-radio>
@@ -425,58 +209,20 @@
       </el-form>
       <div slot="footer" class="dialog-footer margin-top-xl">
         <el-button @click="cancel()">取 消</el-button>
-        <el-button type="primary" @click="confirm()" :disabled="disabled"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="confirm()" :disabled="disabled">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 -->
-    <el-dialog
-      title="编辑"
-      :visible.sync="showEdit"
-      @closed="closed()"
-      @open="queryGoods()"
-    >
+    <el-dialog title="编辑" :visible.sync="showEdit" @closed="closed()" @open="queryGoods()">
       <el-form :model="form" :rules="rules" ref="form">
-        <el-form-item
-          label="一级分类"
-          label-width="90px"
-          multiple
-          prop="cidOne"
-        >
-          <el-select
-            placeholder="请选择"
-            v-model="form.cidOne"
-            clearable
-            style="width: 300px"
-            @change="queryTwo()"
-          >
-            <el-option
-              :label="item.name"
-              :value="item.id"
-              v-for="(item, index) in groupOne"
-              :key="index"
-            ></el-option>
+        <el-form-item label="一级分类" label-width="90px" multiple prop="cidOne">
+          <el-select placeholder="请选择" v-model="form.cidOne" clearable style="width: 300px" @change="queryTwo()">
+            <el-option :label="item.name" :value="item.id" v-for="(item, index) in groupOne" :key="index"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          label="二级分类"
-          label-width="90px"
-          multiple
-          prop="cidTwo"
-        >
-          <el-select
-            placeholder="请选择"
-            v-model="form.cidTwo"
-            clearable
-            style="width: 300px"
-          >
-            <el-option
-              :label="item.name"
-              :value="item.id"
-              v-for="(item, index) in groupTwo"
-              :key="index"
-            ></el-option>
+        <el-form-item label="二级分类" label-width="90px" multiple prop="cidTwo">
+          <el-select placeholder="请选择" v-model="form.cidTwo" clearable style="width: 300px">
+            <el-option :label="item.name" :value="item.id" v-for="(item, index) in groupTwo" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品名称" label-width="90px" prop="name">
@@ -485,94 +231,49 @@
         <div>
           <div class="flex">
             <el-form-item label="产品缩略图" class="flex" prop="thumbnailImage">
-              <el-input
-                v-model="form.thumbnailImage"
-                style="width: 300px"
-              ></el-input>
+              <el-input v-model="form.thumbnailImage" style="width: 300px"></el-input>
             </el-form-item>
             <div class="margin-left">
-              <input
-                type="file"
-                ref="file"
-                style="display: none"
-                v-on:change="uploadFile($event, 1)"
-              />
-              <el-button type="primary" @click="$refs.file.click()"
-                >上传</el-button
-              >
+              <input type="file" ref="file" style="display: none" v-on:change="uploadFile($event, 1)" />
+              <el-button type="primary" @click="$refs.file.click()">上传</el-button>
             </div>
             <div class="margin-left">
               <el-button type="info" @click="chooseGoods(1)">选择</el-button>
             </div>
           </div>
           <div style="margin-left: 13%">
-            <img
-              v-if="form.thumbnailImage"
-              :src="form.thumbnailImage"
-              alt=""
-              style="width: 100px; height: 100px"
-            />
+            <img v-if="form.thumbnailImage" :src="form.thumbnailImage" alt="" style="width: 100px; height: 100px" />
           </div>
         </div>
 
         <div>
           <div class="flex">
             <el-form-item label="产品轮播图" class="flex" prop="carouselImage">
-              <el-input
-                v-model="form.carouselImage"
-                style="width: 300px"
-              ></el-input>
+              <el-input v-model="form.carouselImage" style="width: 300px"></el-input>
             </el-form-item>
             <div class="margin-left">
-              <input
-                type="file"
-                ref="files"
-                multiple="multiple"
-                style="display: none"
-                v-on:change="uploadFile($event, 2)"
-              />
-              <el-button type="primary" @click="$refs.files.click()"
-                >上传</el-button
-              >
+              <input type="file" ref="files" multiple="multiple" style="display: none"
+                v-on:change="uploadFile($event, 2)" />
+              <el-button type="primary" @click="$refs.files.click()">上传</el-button>
             </div>
             <div class="margin-left">
               <el-button type="info" @click="chooseGoods(2)">选择</el-button>
             </div>
           </div>
-          <div
-            class="flex align-center flex-wrap"
-            style="margin-left: 10% !important"
-          >
-            <div
-              class="flex margin-lr-sm"
-              style="align-items: baseline"
-              v-for="(item, index) in fileListImg"
-              :key="index"
-            >
+          <div class="flex align-center flex-wrap" style="margin-left: 10% !important">
+            <div class="flex margin-lr-sm" style="align-items: baseline" v-for="(item, index) in fileListImg"
+              :key="index">
               <div class="flex flex-direction">
-                <img
-                  v-if="item"
-                  :src="item"
-                  class=""
-                  alt=""
-                  style="width: 100px; height: 100px"
-                />
-                <div
-                  style="
-                    background-color: #409eff;
-                    opacity: 0.6;
-                    width: 100px;
-                    height: 20px;
-                    margin-bottom: 10px;
-                    border-radius: 4px;
-                  "
-                  class="flex justify-center align-center"
-                  @click="removeImage(item, index)"
-                >
-                  <i
-                    class="el-icon-delete"
-                    style="color: white; text-align: center"
-                  />
+                <img v-if="item" :src="item" class="" alt="" style="width: 100px; height: 100px" />
+                <div style="
+                        background-color: #409eff;
+                        opacity: 0.6;
+                        width: 100px;
+                        height: 20px;
+                        margin-bottom: 10px;
+                        border-radius: 4px;
+                      " class="flex justify-center align-center" @click="removeImage(item, index)">
+                  <i class="el-icon-delete" style="color: white; text-align: center" />
                 </div>
               </div>
             </div>
@@ -586,78 +287,33 @@
             <div>盒子数量</div>
             <div>库存</div>
           </div>
-          <div
-            class="flex justify-around w6"
-            style="margin-left: 85px"
-            v-for="(item, index) in editSpec"
-            :key="index"
-          >
-            <el-input
-              v-model="item.spec"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
-            <el-input
-              v-model="item.price"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
-            <el-input
-              v-model="item.box_num"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
-            <el-input
-              v-model="item.stock"
-              size="small"
-              class="margin-lr-sm"
-            ></el-input>
+          <div class="flex justify-around w6" style="margin-left: 85px" v-for="(item, index) in editSpec" :key="index">
+            <el-input v-model="item.spec" size="small" class="margin-lr-sm"></el-input>
+            <el-input v-model="item.price" size="small" class="margin-lr-sm"></el-input>
+            <el-input v-model="item.box_num" size="small" class="margin-lr-sm"></el-input>
+            <el-input v-model="item.stock" size="small" class="margin-lr-sm"></el-input>
             <div class="flex">
-              <i
-                class="el-icon-delete margin-top margin-left"
-                style="font-size: 18px"
-                @click="deleteEditColums(item, index)"
-              ></i>
+              <i class="el-icon-delete margin-top margin-left" style="font-size: 18px"
+                @click="deleteEditColums(item, index)"></i>
             </div>
           </div>
           <div>
-            <el-button
-              type="primary"
-              size="mini"
-              class="margin-sm"
-              style="margin-left: 90px"
-              @click="addToEditColums()"
-              >追加</el-button
-            >
+            <el-button type="primary" size="mini" class="margin-sm" style="margin-left: 90px"
+              @click="addToEditColums()">追加</el-button>
           </div>
         </el-form-item>
         <el-form-item label="出售开始时间" prop="startTime">
-          <el-date-picker
-            style="width: 300px"
-            v-model="form.startDate"
-            type="datetime"
-            format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-          >
+          <el-date-picker style="width: 300px" v-model="form.startDate" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="出售结束时间" prop="endTime">
-          <el-date-picker
-            v-model="form.endDate"
-            style="width: 300px"
-            type="datetime"
-            format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
-          >
+          <el-date-picker v-model="form.endDate" style="width: 300px" type="datetime" format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="图文详情" prop="content">
-          <quill-editor
-            ref="text"
-            v-model="form.content"
-            class="editor margin-left-xxl"
-            style="height: 300px;"
-          />
+          <quill-editor ref="text" v-model="form.content" class="editor margin-left-xxl" style="height: 300px;" />
         </el-form-item>
         <el-form-item label="上/下架" class="margin-top-xxl">
           <el-radio v-model="form.status" :label="1">下架</el-radio>
@@ -670,23 +326,17 @@
       </el-form>
       <div slot="footer" class="dialog-footer margin-top-xl">
         <el-button @click="cancel()">取 消</el-button>
-        <el-button type="primary" @click="confirm()" :disabled="disabled"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="confirm()" :disabled="disabled">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 预览图片 -->
     <imageModal :show="preview" :url="url" @closed="closed"></imageModal>
     <!-- 子表格 -->
-    <chooseTable
-      :show="showChooseModal"
-      @close="close"
-      @selectItem="selectItem"
-    ></chooseTable>
+    <chooseTable :show="showChooseModal" @close="close" @selectItem="selectItem"></chooseTable>
   </el-card>
 </template>
     
-    <script>
+<script>
 import axios from "axios";
 import chooseTable from "@/components/ChooseTable";
 export default {
@@ -897,7 +547,9 @@ export default {
       this.get("/goodsManagement/queryCidTwo", {
         id: this.form.cidOne,
       }).then((res) => {
-        this.groupTwo = res.data;
+        if (res.data) {
+          this.groupTwo = res.data;
+        }
       });
     },
     queryconditionTwo() {
@@ -932,8 +584,8 @@ export default {
         this.form.carouselImage = this.fileListImg.join(",");
       }
     },
-        // 预览图片
-        previewImg(row) {
+    // 预览图片
+    previewImg(row) {
       this.url = row;
       this.preview = true;
     },
@@ -985,11 +637,18 @@ export default {
           this.post("/goodsManagement/deleteZGoods", {
             idList: idList,
           }).then((res) => {
-            this.queryData();
-            this.$message({
-              type: "success",
-              message: "删除成功!",
-            });
+            if (res.data.code === 200) {
+              this.queryData();
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "删除失败!",
+              });
+            }
           });
         })
         .catch(() => {
@@ -1210,61 +869,6 @@ export default {
             });
           }
         });
-        let specMap = new Map();
-        for (let i in this.editSpec) {
-          specMap.set(i, this.editSpec[i]);
-        }
-        // 转为字符串
-        var obj = {};
-        for (let [key, value] of specMap) {
-          obj[key] = value;
-        }
-        let data = new FormData();
-        if (this.file) {
-          data.append("file", this.file);
-        } else {
-          data.append("thumbnailImage", this.form.thumbnailImage);
-        }
-        if (this.files) {
-          for (const file of this.files) {
-            data.append("files", file);
-          }
-        }
-        let img = [];
-        this.fileListImg.forEach((item, index) => {
-          console.log(item.substring(0, 3));
-          if (item.substring(0, 4) !== "blob") {
-            img.push(item);
-          }
-        });
-        if (img.length != 0) {
-          data.append("carouselImage", img.join(","));
-        }
-        data.append("id", this.rowId);
-        data.append("cidOne", this.form.cidOne);
-        data.append("cidTwo", this.form.cidTwo);
-        data.append("name", this.form.name);
-        data.append("specs", JSON.stringify(obj));
-        data.append("startTime", this.form.startDate);
-        data.append("endTime", this.form.endDate);
-        data.append("content", this.form.content);
-        data.append("status", this.form.status);
-        data.append("recommendStatus", this.form.recommendStatus);
-        axios({
-          method: "POST",
-          url: "/api/goodsManagement/updateZGoods",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          data: data,
-        }).then((res) => {
-          if (res.data.code === 200) {
-            this.showSuccess();
-            this.queryData();
-            this.showEdit = false;
-            this.disabled = false;
-          }
-        });
       }
     },
     // 选中子表格数据
@@ -1290,10 +894,11 @@ export default {
 };
 </script> 
     
-    <style >
+<style >
 .el-form-item {
   margin-left: 20px;
 }
+
 .spec::after {
   content: "(规格ID不可重复)";
   position: absolute;

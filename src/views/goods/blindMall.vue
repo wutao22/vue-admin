@@ -196,16 +196,6 @@
                             @click="addToColums()">追加</el-button>
                     </div>
                 </el-form-item>
-                <el-form-item label="出售开始时间" prop="startTime">
-                    <el-date-picker style="width: 300px" v-model="form.startTime" type="datetime"
-                        format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="出售结束时间" prop="endTime">
-                    <el-date-picker v-model="form.endTime" style="width: 300px" type="datetime" format="yyyy-MM-dd HH:mm:ss"
-                        placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item>
                 <el-form-item label="图文详情" prop="content">
                     <quill-editor ref="text" v-model="form.content" class="editor margin-left-xxl" style="height: 300px" />
                 </el-form-item>
@@ -316,16 +306,6 @@
                         <el-button type="primary" size="mini" class="margin-sm" style="margin-left: 90px"
                             @click="addToEditColums()">追加</el-button>
                     </div>
-                </el-form-item>
-                <el-form-item label="出售开始时间" prop="startTime">
-                    <el-date-picker style="width: 300px" v-model="form.startDate" type="datetime"
-                        format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="出售结束时间" prop="endTime">
-                    <el-date-picker v-model="form.endDate" style="width: 300px" type="datetime" format="yyyy-MM-dd HH:mm:ss"
-                        placeholder="选择日期">
-                    </el-date-picker>
                 </el-form-item>
                 <el-form-item label="图文详情" prop="content">
                     <quill-editor ref="text" v-model="form.content" class="editor margin-left-xxl" style="height: 300px" />
@@ -509,12 +489,6 @@ export default {
                 carouselImage: [
                     { required: true, message: "请上传产品轮播图", trigger: "blur" },
                 ],
-                startTime: [
-                    { required: true, message: "请填写开售时间", trigger: "blur" },
-                ],
-                endTime: [
-                    { required: true, message: "请填写停售时间", trigger: "blur" },
-                ],
             },
             buttonType: "", // 1为编辑 2为新增
             rowId: "", // 编辑一列的id
@@ -533,7 +507,7 @@ export default {
     methods: {
         // 查询首页数据
         queryData() {
-            this.get("/goodsManagement/queryZGoodsAll", {
+            this.get("/goodsManagement/queryZBlindFruitByPage", {
                 beginNum: this.page.current,
                 queryNum: this.page.size,
                 cidOne: this.condition.cidOne,
@@ -550,7 +524,7 @@ export default {
         },
         // 查询一级分类
         queryGoods() {
-            this.get("/goodsManagement/queryCidOne").then((res) => {
+            this.get("/goodsManagement/queryPids").then((res) => {
                 if (res.data) {
                     this.groupOne = res.data;
                     //   this.queryEditTwo();
@@ -559,14 +533,14 @@ export default {
         },
         // 查询二级分类
         queryTwo() {
-            this.get("/goodsManagement/queryCidTwo", {
+            this.get("/goodsManagement/queryZBlindFruitCidTwo", {
                 id: this.form.cidOne,
             }).then((res) => {
                 this.groupTwo = res.data;
             });
         },
         queryconditionTwo() {
-            this.get("/goodsManagement/queryCidTwo", {
+            this.get("/goodsManagement/queryZBlindFruitCidTwo", {
                 id: this.condition.cidOne,
             }).then((res) => {
                 this.groupTwo = res.data;
@@ -647,7 +621,7 @@ export default {
                 type: "warning",
             })
                 .then(() => {
-                    this.post("/goodsManagement/deleteZGoods", {
+                    this.post("/goodsManagement/deleteZBlindFruit", {
                         idList: idList,
                     }).then((res) => {
                         this.queryData();
@@ -693,7 +667,7 @@ export default {
         },
         // 修改状态
         changeStatus(row) {
-            this.post("/goodsManagement/updateStatus", {
+            this.post("/goodsManagement/updateZBlindFruitStatus", {
                 id: row.id,
                 status: row.status,
             }).then((res) => {
@@ -705,7 +679,7 @@ export default {
         },
         // 修改推荐状态
         changeReStatus(row) {
-            this.post("/goodsManagement/updateRecommendStatus", {
+            this.post("/goodsManagement/updateBRecommendStatus", {
                 id: row.id,
                 recommendStatus: row.recommendStatus,
             }).then((res) => {
@@ -768,12 +742,10 @@ export default {
                             obj[key] = value;
                         }
                         let data = new FormData();
-                        let startTime = this.dateTimeFormat(this.form.startTime);
-                        let endTime = this.dateTimeFormat(this.form.endTime);
                         if (this.file) {
                             data.append("file", this.file);
                         } else {
-                            data.append("thumbnailImage", this.form.productzipimg);
+                            data.append("thumbnailImage", this.form.thumbnailImage);
                         }
                         if (this.files) {
                             for (const file of this.files) {
@@ -793,14 +765,12 @@ export default {
                         data.append("cidTwo", this.form.cidTwo);
                         data.append("name", this.form.name);
                         data.append("specs", JSON.stringify(obj));
-                        data.append("startTime", startTime);
-                        data.append("endTime", endTime);
                         data.append("content", this.form.content);
                         data.append("status", this.form.status);
                         data.append("recommendStatus", this.form.recommendStatus);
                         axios({
                             method: "POST",
-                            url: "/api/goodsManagement/insertZGoods",
+                            url: "/api/goodsManagement/addZBlindFruit",
                             headers: {
                                 "Content-Type": "multipart/form-data",
                             },
@@ -853,14 +823,12 @@ export default {
                         data.append("cidTwo", this.form.cidTwo);
                         data.append("name", this.form.name);
                         data.append("specs", JSON.stringify(obj));
-                        data.append("startTime", this.form.startDate);
-                        data.append("endTime", this.form.endDate);
                         data.append("content", this.form.content);
                         data.append("status", this.form.status);
                         data.append("recommendStatus", this.form.recommendStatus);
                         axios({
                             method: "POST",
-                            url: "/api/goodsManagement/updateZGoods",
+                            url: "/api/goodsManagement/updateZBlindFruit",
                             headers: {
                                 "Content-Type": "multipart/form-data",
                             },
@@ -873,61 +841,6 @@ export default {
                                 this.disabled = false;
                             }
                         });
-                    }
-                });
-                let specMap = new Map();
-                for (let i in this.editSpec) {
-                    specMap.set(i, this.editSpec[i]);
-                }
-                // 转为字符串
-                var obj = {};
-                for (let [key, value] of specMap) {
-                    obj[key] = value;
-                }
-                let data = new FormData();
-                if (this.file) {
-                    data.append("file", this.file);
-                } else {
-                    data.append("thumbnailImage", this.form.thumbnailImage);
-                }
-                if (this.files) {
-                    for (const file of this.files) {
-                        data.append("files", file);
-                    }
-                }
-                let img = [];
-                this.fileListImg.forEach((item, index) => {
-                    console.log(item.substring(0, 3));
-                    if (item.substring(0, 4) !== "blob") {
-                        img.push(item);
-                    }
-                });
-                if (img.length != 0) {
-                    data.append("carouselImage", img.join(","));
-                }
-                data.append("id", this.rowId);
-                data.append("cidOne", this.form.cidOne);
-                data.append("cidTwo", this.form.cidTwo);
-                data.append("name", this.form.name);
-                data.append("specs", JSON.stringify(obj));
-                data.append("startTime", this.form.startDate);
-                data.append("endTime", this.form.endDate);
-                data.append("content", this.form.content);
-                data.append("status", this.form.status);
-                data.append("recommendStatus", this.form.recommendStatus);
-                axios({
-                    method: "POST",
-                    url: "/api/goodsManagement/updateZGoods",
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                    data: data,
-                }).then((res) => {
-                    if (res.data.code === 200) {
-                        this.showSuccess();
-                        this.queryData();
-                        this.showEdit = false;
-                        this.disabled = false;
                     }
                 });
             }

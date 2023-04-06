@@ -341,21 +341,21 @@
     methods: {
       // 查询首页数据
       queryData() {
-        // this.get("/goodsManagement/queryAll", {
-        //   beginNum: this.page.current,
-        //   queryNum: this.page.size,
-        //   id: this.condition.id,
-        //   name: this.condition.name,
-        //   startTime: this.condition.time[0],
-        //   endTime: this.condition.time[1],
-        // }).then((res) => {
-        //   this.data = res.data.records;
-        //   this.page.total = res.data.total;
-        // });
+        this.get("/goodsManagement/queryFruitCategoryByPage", {
+          beginNum: this.page.current,
+          queryNum: this.page.size,
+          id: this.condition.id,
+          name: this.condition.name,
+          startTime: this.condition.time[0],
+          endTime: this.condition.time[1],
+        }).then((res) => {
+          this.data = res.data.records;
+          this.page.total = res.data.total;
+        });
       },
       // 查询相关商品id
       queryPid() {
-        this.get("/goodsManagement/queryPid").then((res) => {
+        this.get("/goodsManagement/queryPids").then((res) => {
           this.faList = res.data;
         });
       },
@@ -390,6 +390,7 @@
         this.url = ''
         this.preview = false;
         this.showEdit = false
+        this.files = null
       },
       // 删除
       deleteItem(idList) {
@@ -399,7 +400,7 @@
           type: "warning",
         })
           .then(() => {
-            this.post("/goodsManagement/deleteZGoodsCategory", {
+            this.post("/goodsManagement/deleteZFruitCategory", {
               idList: idList,
             }).then((res) => {
               this.queryData();
@@ -457,7 +458,7 @@
               data.append("image", this.form.imgUrl);
               axios({
                 method: "POST",
-                url: "/api/goodsManagement/insertZGoodsCategory",
+                url: "/api/goodsManagement/addZFruitCategory",
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -466,7 +467,7 @@
                 if (res.data.code === 200) {
                   this.showSuccess();
                   this.queryData();
-                  this.showEdit = false;
+                  this.showAdd = false;
                   this.disabled = false
                 }
               });
@@ -485,7 +486,7 @@
               data.append("image", this.form.imgUrl);
               axios({
                 method: "POST",
-                url: "/api/goodsManagement/updateZGoodsCategory",
+                url: "/api/goodsManagement/updateZFruitCategory",
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -494,7 +495,7 @@
                 if (res.data.code === 200) {
                   this.showSuccess();
                   this.queryData();
-                  this.showAdd = false;
+                  this.showEdit = false;
                   this.disabled = false
                 }
               });
