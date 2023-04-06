@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'has-logo':showLogo}">
+  <div :class="{'has-logo':showlogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="(route) in menuData" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -26,6 +26,12 @@ import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
+  data() {
+    return {
+      menuData: [],
+      showlogo: true
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar'
@@ -51,6 +57,22 @@ export default {
     isCollapse() {
       return !this.sidebar.opened
     }
+  },
+  created () {
+    this.get('/user/getMenuList').then(res => {
+      if (res.code === 200) {
+        res.data.forEach(item => {
+          if (item.path === "/dashboard") {
+            item.alwaysShow = false
+            this.menuData.unshift(item)
+          } else {
+            this.menuData.push(item)
+          }
+        });
+      } else {
+        this.$Message.error(res.message)
+      }
+    })
   }
 }
 </script>

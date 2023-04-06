@@ -7,15 +7,8 @@ function resolve(dir) {
 }
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
+const port = process.env.port || process.env.npm_config_port || 7000 // dev port
 
-// If your port is set to 80,
-// use administrator privileges to execute the command line.
-// For example, Mac: sudo npm run
-// You can change the port by the following methods:
-// port = 9528 npm run dev OR npm run dev --port = 9528
-const port = process.env.port || process.env.npm_config_port || 9528 // dev port
-
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
@@ -24,7 +17,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -36,7 +29,17 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js')
+    proxy:{
+      '/api':{
+        // target:'http://47.97.213.89:8081',//跨域请求的公共地址
+          target:'http://192.168.1.2:8080',//跨域请求的公共地址
+          // ws:false, //也可以忽略不写，不写也不会影响跨域
+          changeOrigin:true, //是否开启跨域，值为 true 就是开启， false 不开启
+          pathRewrite:{
+              '^/api':''//注册全局路径， 但是在你请求的时候前面需要加上 /api  
+          }
+      }
+  }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -87,7 +90,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

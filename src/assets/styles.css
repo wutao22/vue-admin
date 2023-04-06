@@ -1,0 +1,382 @@
+
+
+.margin {margin: 10px;}
+.margin-lg {margin: 20px;}
+.margin-sm {margin: 5px;}
+.margin-xl {margin: 50px;}
+.margin-right{margin-right: 10px}
+.margin-right-sm {margin-right: 5px}
+.margin-right-lg {margin-right: 20px}
+.margin-right-xl {margin-right: 50px}
+.margin-right-xxl {margin-right: 100px}
+.margin-top {margin-top: 10px}
+.margin-top-sm {margin-top:5px}
+.margin-top-lg { margin-top: 20px }
+.margin-top-xl { margin-top: 50px }
+.margin-top-xxl { margin-top: 100px }
+.margin-left {margin-left: 10px}
+.margin-left-sm {margin-left: 5px}
+.margin-left-lg {margin-left: 20px}
+.margin-left-xl {margin-left: 50px}
+.margin-left-xxl {margin-left: 90px}
+.margin-lr {margin-left: 10px;margin-right: 10px;}
+.margin-lr-sm {margin-left: 5px;margin-right: 5px;}
+.margin-lr-lg {margin-left: 20px;margin-right: 20px;}
+.margin-lr-xl {margin-left: 40px;margin-right: 40px;}
+.margin-lr-xxl {margin-right: 80px;}
+.margin-bottom {margin-bottom: 10px}
+.margin-bottom-lg {margin-bottom: 20px}
+.margin-bottom-sm {margin-bottom: 5px}
+.margin-tb {margin-top: 10px; margin-bottom: 10px;}
+.margin-tb-sm {margin-top: 5px; margin-bottom: 5px;}
+.margin-tb-lg {margin-top: 20px; margin-bottom: 20px;}
+
+.padding {padding: 10px;}
+.padding-sm {padding: 5px;}
+.padding-lg {padding: 20px;}
+.padding-xl {padding: 50px;}
+.padding-lr {padding-left:10px; padding-right: 10px;}
+.padding-lr-sm {padding-left:5px; padding-right: 5px;}
+.padding-lr-lg {padding-left:20px; padding-right: 20px;}
+.padding-lr-xl {padding-left:50px; padding-right: 50px;}
+.padding-lr-xxl {padding-left:100px; padding-right: 100px;}
+.padding-tb{padding-top: 10px; padding-bottom: 10px;}
+.padding-tb-sm{padding-top: 5px; padding-bottom: 5px;}
+.padding-tb-lg{padding-top: 20px; padding-bottom: 20px;}
+.padding-top { padding-top: 10px }
+.padding-top-sm { padding-top: 5px }
+.padding-top-lg { padding-top: 20px }
+.padding-top-xl { padding-top: 50px }
+.padding-top-xxl { padding-top: 100px }
+.padding-left {padding-left: 10px}
+.padding-left-lg {padding-left: 20px}
+.padding-left-sm {padding-left: 5px}
+.padding-left-xl {padding-left: 50px}
+.padding-left-xxl {padding-left: 100px}
+.padding-right { padding-right: 10px }
+.padding-right-sm { padding-right: 5px }
+.padding-right-lg { padding-right: 20px }
+.padding-right-xl { padding-right: 50px }
+.padding-right-xxl { padding-right: 100px }
+.padding-bottom { padding-bottom: 10px }
+.padding-bottom-sm { padding-bottom: 5px }
+.padding-bottom-lg { padding-bottom: 20px }
+.padding-bottom-xl { padding-bottom: 50px }
+.padding-bottom-xxl { padding-bottom: 100px }
+
+.text-orange {color: orange}
+.text-yellow {color: yellow}
+.text-white {color: white}
+.text-blue {color: blue}
+.text-red {color: red}
+.text-blue2 {color: rgb(0, 174, 255)}
+.text-green {color: #19be6b}
+.text-greenywllow {color: greenyellow}
+.text-sm {font-size: 12px!important;}
+.text-13 { font-size: 13px; }
+.text-20 {
+    font-size: 20px;
+}
+.text-24 {
+    font-size: 24px;
+}
+.text-18 {
+    font-size: 18px;
+}
+.text-14 {
+    font-size: 14px;
+}
+.text-bold {font-weight: bold}
+.text-title {font-size: 40px!important}
+.text-logo {font-size: 30px!important}
+
+/* 内容位置 */
+.text-right {text-align: right}
+.text-left {text-align: left}
+.text-center {text-align: center}
+.form-label {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.line-height-30 { line-height: 30px;}
+.line-height-35 { line-height: 35px;}
+.line-height-40 { line-height: 40px;}
+.line-height-50 { line-height: 50px;}
+
+
+/* 宽度设置 */
+.w1 {width: 10%}
+.w2 {width: 20%}
+.w3 {width: 30%}
+.w4 {width: 40%}
+.w5 {width: 50%}
+.w6 {width: 60%}
+.w7 {width: 70%}
+.w8 {width: 80%}
+.w9 {width: 90%}
+.w10 {width: 100%}
+
+
+/* flex 布局 */
+.flex{
+    display: -webkit-flex; /* Safari */
+    display: flex;
+}
+/* 换行 */
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.flex-direction {
+	flex-direction: column;
+}
+/* 水平主轴上的对齐方式 */
+.justify-start{justify-content: flex-start;}
+.justify-center{justify-content: center;}
+.justify-end{justify-content: flex-end;}
+.justify-between{justify-content: space-between;}
+.justify-around{justify-content: space-around;}
+
+/* 竖直方向上的对其方式 */
+.align-start {align-items: flex-start}
+.align-end {align-items: flex-end}
+.align-center {align-items: center}
+.align-baseline {align-items: baseline }
+.align-stretch {align-items: stretch;}
+
+
+.flex-1{
+	flex: 1 1 auto;
+}
+.flex-0 {
+	flex: 0 0 auto;
+}
+
+/* 背景色 */
+.bg-white {
+    background-color: white;
+}
+.bg-white-shadow {
+    background-color: white;
+    box-shadow:2px 2px 3px #dfdfdf;
+}
+.bg-gray {background-color: #fafafa}
+.bg-blue {background-color: blue}
+.bg-red {background-color: red}
+/* .bg-l  #dff3fd */
+.bg-l {background-color: #848b8f66;}
+.bg-click {background-color: #19d174;}
+.bg-gray-active { background-color: #dbe4ef; }
+.bg-table {
+    background-color: #f8f8f9;
+}
+.bgClick {
+    background: linear-gradient(90deg, #F44894 0%, #823FC4 54%, #4941EC 100%);
+}
+
+/* 线条 */
+.solid-right {border-right: solid 1px #dcdee2;}
+.solid-top {border-top: solid 1px #dcdee2;}
+.solid-bottom {border-bottom: solid 1px #dcdee2;}
+.solid-bottom-blue {border-bottom: solid 1px #52befd;}
+.solid-left {border-left: solid 1px #dcdee2;}
+.solid {border: solid 1px #dcdee2;}
+.solid-lr {
+    border-left: solid 1px #dcdee2;
+    border-right: solid 1px #dcdee2;
+}
+
+
+/* 表格线条 */
+.solid-right-tb {border-right: 1px solid #e8eaec;}
+.solid-top-tb {border-top: 1px solid #e8eaec;}
+.solid-bottom-tb {border-bottom: 1px solid #e8eaec;}
+.solid-left-tb {border-left: 1px solid #e8eaec;}
+
+/* 鼠标指针样式 */
+.cursor-pointer {cursor:pointer}
+.grid1 {
+    display: grid;grid-template-columns: 1fr;
+}
+.grid2 {
+    display: grid;grid-template-columns: 1fr 1fr;
+}
+.grid3 {
+    display: grid;grid-template-columns: 1fr 1fr 1fr;
+}
+.grid4 {
+    display: grid;grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.grid6 {
+    display: grid;grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.grid-form-1 {
+    display: grid;
+    grid-template-columns: 100px auto;
+    grid-row-gap: 10px;
+}
+.grid-gap {
+    grid-row-gap: 10px;
+    grid-column-gap: 20px;
+}
+.grid-item-2 { grid-column-start: span 2; }
+.grid-item-3 { grid-column-start: span 3; }
+.grid-item-4 { grid-column-start: span 4; }
+
+.radius-4 {
+    border-radius: 4px;
+}
+.radius-10 {
+    border-radius: 10px;
+}
+/* ========== iview 适用 =========== */
+/* 单选按钮字体小号 */
+.text-sm .ivu-radio-group label {
+    font-size: 12px;
+}
+
+/* 省市区选择样式 */
+.distpicker-address-wrapper select {
+    background: #181b3e  !important;
+    color: #fff  !important;
+}
+
+/* 数字输入框和文本域背景色 */
+.inputAndArea {
+    background-color: #181b3e;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.29);
+}
+
+.color-f  {
+    color: #fff;
+}
+
+/* 搜索按钮样式 */
+.search_btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    white-space: nowrap;
+    line-height: 1.5;
+    height: 32px;
+    padding: 4px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #F44894 0%, #823FC4 54%, #4941EC 100%);
+    opacity: 0.99;
+}
+/* 新增按钮样式 */
+.add_btn {
+    display: flex;
+    margin-bottom: 0;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    font-weight: 400;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.5;
+    padding: 2px 0;
+    font-size: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #F44894 0%, #823FC4 54%, #4941EC 100%);
+    opacity: 0.99;
+    letter-spacing: 2px;
+}
+/* 新增按钮加号样式 */
+ .add_icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    margin-right: 5px;
+    width: 17px;
+    height: 17px;
+    text-align: center;
+    vertical-align: middle;
+    align-items: center;
+ }
+ /* 自定义文本按钮 */
+ .text_btn {
+    color: #F4509F;
+    cursor: pointer;
+ }
+/* 返回按钮 */
+.main-action {
+    width: 85%;
+    /* padding: 30px 0 0 0; */
+    text-align: center;
+    position: fixed;
+    bottom: 50px;
+}
+.btn-toolbar {
+    cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .2s;
+    display: inline-block;
+    padding: 4px 15px;
+    color: #fff;
+    pointer-events: auto;
+    background: #717171;
+    background-color: rgba(90,90,90,.85);
+    border-radius: 4px;
+}
+.search_btn2 {
+    cursor: pointer;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .2s;
+    display: inline-block;
+    padding: 4px 15px;
+    color: #fff;
+    pointer-events: auto;
+    background: #717171;
+    background: linear-gradient(90deg, #F44894 0%, #823FC4 54%, #4941EC 100%);
+    border-radius: 4px;
+}
+/* 自定义输入框单位 */
+.dw {
+    padding: 0 10px;
+    background: #dddddd66;
+    font-size: 12px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-left: -5px;
+    color: #fff;
+}
+
+.title-bac {
+    background: #2A2F55;
+    color: #fff;
+}
+.bacPage {
+    background: #181B3E;
+}
+.table-bac {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+}
+/* 时间选择器样式 */
+span.ivu-date-picker-cells-cell-disabled, span.ivu-date-picker-cells-cell-disabled:hover {
+    background: #f7f7f717 !important;
+}
+
+/* 图片放大 */
+.bigImgc {
+    position:fixed;
+    z-index:999;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width: 600px;
+}
