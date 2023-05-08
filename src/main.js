@@ -18,7 +18,7 @@ import '@/icons' // icon
 // import '@/permission' // permission control
 // 工具方法
 import {
-  get, Format, post, uploadFile, copy, dateTimeFormat, formatDate, uploadMoreFile, previewing, downloadFile, downloadExcel, showSuccess, getUserInfo
+  get, Format, post, uploadFile, copy, dateTimeFormat, formatDate, uploadMoreFile, previewing, downloadFile, downloadExcel, showSuccess, getUserInfo, dispatchEventStroage
 } from './assets/common/service.js'
 import {Message } from 'element-ui'
 
@@ -35,6 +35,7 @@ import * as qiniu from 'qiniu-js'
 
 Vue.use(qiniu)
 Vue.use(VueQuillEditor)
+Vue.use(dispatchEventStroage)
 Vue.component('Table', Table)
 Vue.component('imageModal', imageModal)
 // set ElementUI lang to EN

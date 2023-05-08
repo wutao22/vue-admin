@@ -24,7 +24,7 @@
     <Table :tableData="data" :colums="colums" :showFresh="true" :showAdd="true" :showDelete="true"
       @deleteItem="deleteItem" @addFile="addFile" @fresh="queryData">
       <template v-slot:operation>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
             <el-button type="text" size="small" slot="reference" @click="deleteItem(scope.row.id)">删除</el-button>
@@ -42,7 +42,7 @@
     <el-dialog title="添加" :visible.sync="showAdd" @closed="closed()" @open="queryPid()">
       <div>
         <el-form ref="forms" :model="form" :rules="rules" label-width="90px" class="form">
-          <el-form-item label="父id" label-width="90px" prop="faId">
+          <el-form-item label="父id" label-width="90px" prop="faId" class="father">
             <el-select placeholder="请选择" v-model="form.faId" clearable>
               <el-option :label="item.name" :value="item.id" v-for="(item, index) in faList" :key="index"></el-option>
             </el-select>
@@ -80,7 +80,7 @@
     <el-dialog title="编辑" :visible.sync="showEdit" @closed="closed()" @open="queryPid()">
       <div>
         <el-form ref="forms" :model="form" :rules="rules" label-width="90px" class="form">
-          <el-form-item label="父id" label-width="90px" prop="faId">
+          <el-form-item label="父id" label-width="90px" prop="faId" class="father">
             <el-select placeholder="请选择" v-model="form.faId" clearable>
               <el-option :label="item.name" :value="item.id" v-for="(item, index) in faList" :key="index"></el-option>
             </el-select>
@@ -417,6 +417,18 @@ export default {
 .form .el-input,
 .form .el-select {
   width: 300px !important;
+}
+
+.form {
+  position: relative;
+}
+
+.father::after {
+  content: '不选择则新增父Id为0的分类';
+  position: absolute;
+  right: 38%;
+  top: 6%;
+  color: cornflowerblue;
 }
 </style>
     

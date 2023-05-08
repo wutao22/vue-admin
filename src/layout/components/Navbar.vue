@@ -6,7 +6,9 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
+          <el-avatar v-if="!this.avatar" shape="square"
+            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+          <img v-else :src="avatar" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -43,8 +45,15 @@ export default {
     }
   },
   mounted() {
+    let _this = this
+    window.addEventListener("setItemEvent", function (e) {
+      if (e.key === "userInfo" && e.newValue) {
+        let data = JSON.parse(e.newValue)
+        _this.avatar = data.avatar
+      }
+    })
     let userInfo = JSON.parse(localStorage.getItem('userInfo'))
-    this.avatar =  userInfo.avatar
+    this.avatar = userInfo.avatar
   },
   computed: {
     ...mapGetters([
@@ -55,14 +64,14 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    updateProfile () {
+    updateProfile() {
       this.$router.push('/profile')
     },
     async logout() {
       this.post('/user/logout').then(res => {
-        if(res.data.code === 200) {
+        if (res.data.code === 200) {
           localStorage.removeItem('token')
-      this.$router.push('/login')
+          this.$router.push('/login')
         }
       })
       // await this.$store.dispatch('user/logout')
@@ -78,7 +87,7 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 
   .hamburger-container {
     line-height: 46px;
@@ -86,7 +95,7 @@ export default {
     float: left;
     cursor: pointer;
     transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
       background: rgba(0, 0, 0, .025)

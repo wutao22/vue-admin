@@ -86,7 +86,7 @@
         @fresh="getData"
       >
         <template v-slot:operation>
-          <el-table-column label="操作">
+          <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <el-button @click="editItem(scope.row)" type="text" size="small"
                 >编辑</el-button

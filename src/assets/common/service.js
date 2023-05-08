@@ -88,6 +88,17 @@ export function getUserInfo() {
         formLabelAlign.nickname = userInfo.nickName;
     });
 }
+// 重写setItem事件，当使用setItem的时候，触发，window.dispatchEvent派发事件
+export function dispatchEventStroage() {
+    const signSetItem = localStorage.setItem
+    localStorage.setItem = function(key, val) {
+        let setEvent = new Event('setItemEvent')
+        setEvent.key = key
+        setEvent.newValue = val
+        window.dispatchEvent(setEvent)
+        signSetItem.apply(this, arguments)
+    }
+}
 
 /* 时间格式化 */
 export function dateTimeFormat(date) {

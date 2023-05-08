@@ -72,7 +72,6 @@ export default {
     this.formLabelAlign.username = userInfo.name;
     this.formLabelAlign.mail = userInfo.email;
     this.formLabelAlign.nickname = userInfo.nickName;
-    // this.formLabelAlign.pwd = userInfo.password
   },
   methods: {
     updateAvatar() {},
@@ -110,7 +109,6 @@ export default {
         password: password,
       }).then((res) => {
         if (res.data.code === 200) {
-          this.$router.go(0);
           this.showSuccess();
           this.getUserInfo();
         } else {

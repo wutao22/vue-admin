@@ -49,7 +49,7 @@
         <Table :tableData="data" :colums="colums" :showFresh="true" :showAdd="true" :showDelete="true"
             @deleteItem="deleteItem" @addFile="addFile" @fresh="queryData">
             <template v-slot:carouselImage>
-                <el-table-column label="盲盒产品轮播图" min-width="180px">
+                <el-table-column label="盲盒产品轮播图" min-width="180px" align="center">
                     <template slot-scope="scope">
                         <span class="flex flex-wrap">
                             <img :src="item" class="margin-lr-sm margin-tb-sm" style="width: 40px; height: 40px"
@@ -60,7 +60,7 @@
                 </el-table-column>
             </template>
             <template v-slot:operation>
-                <el-table-column label="操作">
+                <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
                         <el-button type="text" size="small" slot="reference"
@@ -69,7 +69,7 @@
                 </el-table-column>
             </template>
             <template v-slot:status>
-                <el-table-column label="上/下架">
+                <el-table-column label="上/下架" align="center">
                     <template slot-scope="scope">
                         <el-switch :value="scope.row.status" :active-value="2" :inactive-value="1"
                             @change="changeStatus(scope.row)"></el-switch>
@@ -77,7 +77,7 @@
                 </el-table-column>
             </template>
             <template v-slot:recommendStatus>
-                <el-table-column label="推荐状态">
+                <el-table-column label="推荐状态" align="center">
                     <template slot-scope="scope">
                         <el-switch :value="scope.row.recommendStatus" :active-value="2" :inactive-value="1"
                             @change="changeReStatus(scope.row)"></el-switch>
@@ -160,14 +160,6 @@
                             </div>
                         </div>
                     </div>
-                <!-- <div style="margin-left: 13%">
-              <img
-                v-if="form.carouselImage"
-                :src="form.carouselImage"
-                alt=""
-                style="width: 100px; height: 100px"
-              />
-                    </div> -->
                 </div>
 
                 <el-form-item label="规格">

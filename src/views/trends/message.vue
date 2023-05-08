@@ -2,81 +2,38 @@
   <el-card>
     <!-- 搜索条件 -->
     <div class="flex justify-between align-center">
-      <el-form
-        ref="condition"
-        :model="form"
-        label-width="80px"
-        class="flex align-center padding-top-lg"
-      >
+      <el-form ref="condition" :model="form" label-width="80px" class="flex align-center padding-top-lg">
         <el-form-item label="状态">
-          <el-select
-            placeholder="请选择状态"
-            v-model="condition.status"
-            @change="queryData()"
-            clearable
-            size="small"
-          >
+          <el-select placeholder="请选择状态" v-model="condition.status" @change="queryData()" clearable size="small">
             <el-option label="上架" value="1"></el-option>
             <el-option label="下架" value="2"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <div class="flex justify-center align-center">
-        <el-button type="primary" @click="queryData()" size="small"
-          >搜索</el-button
-        >
+        <el-button type="primary" @click="queryData()" size="small">搜索</el-button>
         <el-button type="info" @click="reset()" size="small">重置</el-button>
       </div>
     </div>
-    <Table
-      :tableData="data"
-      :colums="colums"
-      :showFresh="true"
-      :showDelete="true"
-      @deleteItem="deleteItem"
-      @fresh="queryData"
-    >
+    <Table :tableData="data" :colums="colums" :showFresh="true" :showDelete="true" @deleteItem="deleteItem"
+      @fresh="queryData">
       <template v-slot:operation>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="openComment(scope.row)"
-              >查看评论</el-button
-            >
-            <el-button
-              type="text"
-              size="small"
-              slot="reference"
-              @click="deleteItem(scope.row.id)"
-              >删除</el-button
-            >
+            <el-button type="text" size="small" @click="openComment(scope.row)">查看评论</el-button>
+            <el-button type="text" size="small" slot="reference" @click="deleteItem(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </template>
       <template v-slot:mideaUrl>
-        <el-table-column label="视频/图片url" max-width="500px">
+        <el-table-column label="视频/图片url" max-width="500px" align="center">
           <template slot-scope="scope">
             <div class="flex flex-wrap">
-              <div
-                v-for="(item, index) in scope.row.url.split(',')"
-                @click.stop="openVideo(item)"
-                :key="index"
-                class="flex flex-wrap"
-              >
-                <el-input
-                  type="text"
-                  suffix-icon="el-icon-video-camera"
-                  :value="item"
-                  v-if="item.substring(item.length - 3, item.length) === 'mp4'"
-                  size="small"
-                  disabled
-                />
-                <img
-                  :src="item"
-                  alt=""
-                  class="margin-sm"
-                  v-else
-                  style="width: 40px; height: 40px"
-                />
+              <div v-for="(item, index) in scope.row.url.split(',')" @click.stop="openVideo(item)" :key="index"
+                class="flex flex-wrap">
+                <el-input type="text" suffix-icon="el-icon-video-camera" :value="item"
+                  v-if="item.substring(item.length - 3, item.length) === 'mp4'" size="small" disabled />
+                <img :src="item" alt="" class="margin-sm" v-else style="width: 40px; height: 40px" />
                 <!-- <video :src="item" v-if="item.substring(item.length -3, item.length) === 'mp4'"></video> -->
               </div>
             </div>
@@ -84,28 +41,18 @@
         </el-table-column>
       </template>
       <template v-slot:status>
-        <el-table-column label="状态" width="100px">
+        <el-table-column label="状态" width="100px" align="center">
           <template slot-scope="scope">
-            <el-switch
-              :value="scope.row.status"
-              :active-value="1"
-              :inactive-value="2"
-              @change="changeStatus(scope.row)"
-            ></el-switch>
+            <el-switch :value="scope.row.status" :active-value="1" :inactive-value="2"
+              @change="changeStatus(scope.row)"></el-switch>
           </template>
         </el-table-column>
       </template>
     </Table>
     <div class="block margin-top flex justify-end">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page.current"
-        :page-sizes="[5, 10, 20, 40]"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.current"
+        :page-sizes="[5, 10, 20, 40]" :page-size="page.size" layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total">
       </el-pagination>
     </div>
     <el-dialog title="添加" :visible.sync="showAdd" @closed="closed()">
@@ -126,29 +73,15 @@
     </el-dialog>
     <!-- 视频预览 -->
     <el-dialog title="预览" :visible.sync="showMedia" @closed="closed()">
-      <video
-        :src="videoUrl"
-        v-if="videoUrl"
-        autoplay
-        style="height: 600px; width: 800px"
-      ></video>
-      <img
-        :src="mediaUrl"
-        v-if="mediaUrl"
-        alt=""
-        style="width: 100%; height: 100%"
-      />
+      <video :src="videoUrl" v-if="videoUrl" autoplay style="height: 600px; width: 800px"></video>
+      <img :src="mediaUrl" v-if="mediaUrl" alt="" style="width: 100%; height: 100%" />
     </el-dialog>
     <!-- 查看评论 -->
-    <commentModal
-      :show="showComment"
-      :id="rowId"
-      @closed="closed"
-    ></commentModal>
+    <commentModal :show="showComment" :id="rowId" @closed="closed"></commentModal>
   </el-card>
 </template>
   
-  <script>
+<script>
 import commentModal from "./components/commentModal.vue";
 export default {
   components: {
@@ -205,7 +138,7 @@ export default {
           key: "textDescribe",
           props: "textDescribe",
           label: "动态描述",
-          render: (h, params)=> {
+          render: (h, params) => {
             return h('div', {
               style: {
                 'overflow': 'hidden',
@@ -335,7 +268,7 @@ export default {
       this.showEdit = false;
     },
     // 点击确认按钮
-    confirm() {},
+    confirm() { },
     // 分页
     handleSizeChange(val) {
       this.page.size = val;
@@ -349,5 +282,4 @@ export default {
 };
 </script>
   
-  <style>
-</style>
+<style></style>

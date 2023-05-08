@@ -25,7 +25,7 @@
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="approve(scope.row)"
                                 v-if="scope.row.verify === '0'">通过审核</el-button>
-                            <el-button type="text" size="small" @click="reject(scope.row)"
+                            <el-button type="text" size="small" @click="reject(scope.row.id)"
                                 v-if="scope.row.verify === '0'">拒绝审核</el-button>
                         </template>
                     </el-table-column>
@@ -38,6 +38,20 @@
                 </el-pagination>
             </div>
         </el-card>
+        <el-dialog title="拒绝申请" :visible.sync="showReject" @closed="closed()">
+            <div>
+                <el-form ref="forms" :model="form" :rules="rules" label-width="90px" class="form">
+                    <el-form-item label="拒绝原因" label-width="90px" prop="reason">
+                        <el-input type="textarea" autosize placeholder="请输入拒绝原因" v-model="form.reason" style="width: 400px;"
+                            maxlength="200"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="closed">取 消</el-button>
+                <el-button type="primary" @click="confirmReject()" :disabled="disabled">确 定</el-button>
+            </div>
+        </el-dialog>
         <!-- 预览图片 -->
         <imageModal :show="preview" :url="url" @closed="closed"></imageModal>
     </div>
@@ -146,6 +160,10 @@ export default {
                     },
                 },
                 {
+                    key:'reason',
+                    label: '拒绝原因'
+                },
+                {
                     prop: "makeTime",
                     key: "makeTime",
                     label: "洽淡时间",
@@ -161,7 +179,19 @@ export default {
             condition: {
                 status: ''
             },
+            form: {
+                reason: ''
+            },
             url: '',
+            showReject: false,
+            // 校验规则
+            rules: {
+                reason: [
+                    { required: true, message: "请输入拒绝申请原因", trigger: "blur" },
+                ]
+            },
+            disabled: false,
+            rowId: '',
             preview: false,
             page: {
                 current: 1,
@@ -213,32 +243,33 @@ export default {
                     });
                 });
         },
-        // 审核拒绝
+        // 拒绝申请
         reject(row) {
-            this.$confirm("是否确认拒绝该商家入驻审核?", "提示", {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "warning",
-            }).then(() => {
+            // 3
+            this.showReject = true
+            this.rowId = row
+        },
+        // 确认拒绝按钮
+        confirmReject() {
+            this.$refs.forms.validate(valid => {
+                if (valid) {
+                    this.disabled = true
                     this.post("/merchant/merchantSettlementVerify", {
-                        id: row.id,
+                        id: this.rowId,
                         verifyFlag: 2,
+                        reason: this.form.reason
                     }).then((res) => {
                         if (res.data.code === 200) {
                             this.queryData()
+                            this.showReject = false
                             this.$message({
                                 type: "success",
-                                message: "执行成功!",
+                                message: "拒绝审核成功!",
                             });
                         }
                     });
-                })
-                .catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消拒绝审核",
-                    });
-                });
+                }
+            })
         },
         // 查看图片
         previewImg(row) {
@@ -254,6 +285,9 @@ export default {
         closed() {
             this.url = ''
             this.preview = false
+            this.showReject = false
+            this.form.reason = ''
+            this.disabled = false
         },
         // 分页
         handleSizeChange(val) {

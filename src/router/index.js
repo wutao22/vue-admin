@@ -80,6 +80,12 @@ export const constantRoutes = [
         meta: { title: 'banner管理'},
       },
       {
+        path: '/app',
+        name: 'app',
+        component: () => import('@/views/system/app'),
+        meta: { title: 'app版本管理'},
+      },
+      {
         path: '/sysconf',
         name: 'sysconf',
         component: () => import('@/views/system/sysconf'),
@@ -117,6 +123,18 @@ export const constantRoutes = [
     name: 'member',
     meta: { title: '会员管理'},
     children: [
+      {
+        path: '/boxManage',
+        name: 'boxManage',
+        component: () => import('@/views/member/boxManage'),
+        meta: { title: '盒子商品'},
+      },
+      {
+        path: '/boxOrder',
+        name: 'boxOrder',
+        component: () => import('@/views/member/boxOrder'),
+        meta: { title: '盒子订单'},
+      },
       {
         path: '/govern',
         name: 'govern',
@@ -347,6 +365,40 @@ export const constantRoutes = [
       name: 'settlement',
       component: () => import('@/views/merchant/settlement'),
       meta: { title: '商家入驻审核'},
+    }
+  ]
+},
+// 礼物
+{
+  path: '/gift',
+  component: Layout,
+  redirect: '/myGift',
+  name: 'gift',
+  meta: { title: '礼物管理'},
+  children: [
+    {
+      path: '/myGift',
+      name: 'myGift',
+      component: () => import('@/views/gift/myGift'),
+      meta: { title: '我的礼物'},
+    },
+    {
+      path: '/giftProduct',
+      name: 'giftProduct',
+      component: () => import('@/views/gift/giftProduct'),
+      meta: { title: '礼物商品'},
+    },
+    {
+      path: '/giftOrder',
+      name: 'giftOrder',
+      component: () => import('@/views/gift/giftOrder'),
+      meta: { title: '礼物订单'},
+    },
+    {
+      path: '/giftList',
+      name: 'giftList',
+      component: () => import('@/views/gift/giftList'),
+      meta: { title: '礼物列表'},
     }
   ]
 },

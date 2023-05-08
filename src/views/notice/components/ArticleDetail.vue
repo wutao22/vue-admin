@@ -1,39 +1,19 @@
 <template>
   <div class="createPost-container">
-    <el-form
-      ref="postForm"
-      :model="postForm"
-      :rules="rules"
-      class="form-container"
-    >
+    <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
       <div class="flex justify-end margin-top">
-      <el-button
-        v-loading="loading"
-        style="margin-left: 10px"
-        type="primary"
-        @click="submitForm"
-      >
-        发布
-      </el-button>
-      <el-button
-        v-loading="loading"
-        style="margin-left: 10px"
-        type="info"
-        @click="cancel"
-      >
-        取消
-      </el-button>
-    </div>
+        <el-button v-loading="loading" style="margin-left: 10px" type="primary" @click="submitForm">
+          发布
+        </el-button>
+        <el-button v-loading="loading" style="margin-left: 10px" type="info" @click="cancel">
+          取消
+        </el-button>
+      </div>
       <div class="createPost-main-container">
         <el-row>
           <el-col :span="24">
             <el-form-item style="margin-bottom: 40px" prop="title">
-              <MDinput
-                v-model="postForm.title"
-                :maxlength="100"
-                name="name"
-                required
-              >
+              <MDinput v-model="postForm.title" :maxlength="100" name="name" required>
                 标题
               </MDinput>
             </el-form-item>
@@ -198,20 +178,20 @@ export default {
       document.title = `${title} - ${this.postForm.id}`;
     },
     submitForm() {
-      axios.post('http://zhanqu.zgbright.cn/api/Bulletin/noticeAdd',{
+      axios.post('http://zhanqu.zgbright.cn/api/Bulletin/noticeAdd', {
         title: this.postForm.title,
         content: this.postForm.content
       }).then(res => {
-          this.showSuccess()
-          this.$router.push('/dashboard')
+        this.showSuccess()
+        this.$router.push('/dashboard')
       }, err => {
         this.$message({
-            message: '出错了',
-            type: "error",
-          });
+          message: '出错了',
+          type: "error",
+        });
       })
     },
-    cancel () {
+    cancel() {
 
     },
     draftForm() {

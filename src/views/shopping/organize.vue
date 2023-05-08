@@ -1,95 +1,47 @@
 <template>
   <el-card>
-    <Table
-      :tableData="data"
-      :colums="colums"
-      :showFresh="true"
-      :showAdd="true"
-      :showDelete="true"
-      @deleteItem="deleteItem"
-      @addFile="addFile"
-      @fresh="queryData"
-    >
+    <Table :tableData="data" :colums="colums" :showFresh="true" :showAdd="true" :showDelete="true"
+      @deleteItem="deleteItem" @addFile="addFile" @fresh="queryData">
       <template v-slot:operation>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editItem(scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              type="text"
-              size="small"
-              slot="reference"
-              @click="deleteItem(scope.row.id)"
-              >删除</el-button
-            >
+            <el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" slot="reference" @click="deleteItem(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </template>
     </Table>
     <div class="block margin-top flex justify-end">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page.current"
-        :page-sizes="[5, 10, 20, 40]"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.current"
+        :page-sizes="[5, 10, 20, 40]" :page-size="page.size" layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total">
       </el-pagination>
     </div>
-    <el-dialog :title="buttonType === 1? '添加' : '编辑'" :visible.sync="showAdd" @closed="closed()">
+    <el-dialog :title="buttonType === 1 ? '添加' : '编辑'" :visible.sync="showAdd" @closed="closed()">
       <el-form :model="form" :rules="rules" ref="form" class="form">
-        <el-form-item label="父ID" label-width="120px" multiple prop="fatherId">
+        <el-form-item label="父ID" label-width="120px" multiple prop="fatherId" class="father">
           <el-select placeholder="请选择" v-model="form.fatherId" clearable>
-            <el-option
-              v-for="(item, index) in data"
-              :key="index"
-              :label="item.name"
-              :value="item.pid"
-            ></el-option>
+            <el-option v-for="(item, index) in data" :key="index" :label="item.name" :value="item.pid"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          label="分类名称"
-          label-width="120px"
-          placeholder="请输入分类名称"
-          prop="name"
-        >
+        <el-form-item label="分类名称" label-width="120px" placeholder="请输入分类名称" prop="name">
           <el-input v-model="form.name" maxlength="20"></el-input>
         </el-form-item>
         <div>
           <div class="flex">
-            <el-form-item
-              label="分类图片"
-              label-width="120px"
-              prop="categoryImg"
-            >
+            <el-form-item label="分类图片" label-width="120px" prop="categoryImg">
               <el-input v-model="form.categoryImg" disabled></el-input>
             </el-form-item>
             <div class="margin-left">
-              <input
-                type="file"
-                ref="files"
-                style="display: none"
-                v-on:change="uploadFile($event)"
-              />
-              <el-button type="primary" @click="$refs.files.click()"
-                >上传</el-button
-              >
+              <input type="file" ref="files" style="display: none" v-on:change="uploadFile($event)" />
+              <el-button type="primary" @click="$refs.files.click()">上传</el-button>
             </div>
             <div class="margin-left">
               <el-button type="info" @click="chooseGoods()">选择</el-button>
             </div>
           </div>
           <div class="padding-bottom" style="margin-left: 13%">
-            <img
-              v-if="form.categoryImg"
-              :src="form.categoryImg"
-              alt=""
-              style="width: 100px; height: 100px"
-            />
+            <img v-if="form.categoryImg" :src="form.categoryImg" alt="" style="width: 100px; height: 100px" />
           </div>
         </div>
       </el-form>
@@ -99,17 +51,13 @@
       </div>
     </el-dialog>
     <!-- 子表格 -->
-    <chooseTable
-      :show="showChooseModal"
-      @close="close"
-      @selectItem="selectItem"
-    ></chooseTable>
+    <chooseTable :show="showChooseModal" @close="close" @selectItem="selectItem"></chooseTable>
     <!-- 预览图片 -->
     <imageModal :show="preview" :url="url" @closed="closed"></imageModal>
   </el-card>
 </template>
   
-  <script>
+<script>
 import axios from "axios";
 import chooseTable from "@/components/ChooseTable";
 export default {
@@ -351,8 +299,21 @@ export default {
 };
 </script>
   
-  <style scoped>
-.form .el-input,  .form .el-select{
+<style scoped>
+.form .el-input,
+.form .el-select {
   width: 300px !important;
+}
+
+.form{
+  position: relative;
+}
+
+.father::after {
+  content: '不选择则新增父Id为0的分类';
+  position: absolute;
+  right: 35%;
+  top: 5%;
+  color: cornflowerblue;
 }
 </style>

@@ -55,7 +55,7 @@
       @fresh="queryData"
     >
       <template v-slot:operation>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editItem(scope.row)"
               >编辑</el-button
@@ -92,7 +92,7 @@
     >
       <div>
         <el-form ref="forms" :model="form" :rules="rules" label-width="90px" class="form">
-          <el-form-item label="父id" label-width="90px" prop="faId">
+          <el-form-item label="父id" label-width="90px" prop="faId" class="father">
             <el-select placeholder="请选择" v-model="form.faId" clearable>
               <el-option
                 :label="item.name"
@@ -159,7 +159,7 @@
     >
       <div>
         <el-form ref="forms" :model="form" :rules="rules" label-width="90px" class="form">
-          <el-form-item label="父id" label-width="90px" prop="faId">
+          <el-form-item label="父id" label-width="90px" prop="faId" class="father">
             <el-select placeholder="请选择" v-model="form.faId" clearable>
               <el-option
                 :label="item.name"
@@ -522,6 +522,17 @@ export default {
   <style>
   .form .el-input,  .form .el-select{
   width: 300px !important;
+}
+.form{
+  position: relative;
+}
+
+.father::after {
+  content: '不选择则新增父Id为0的分类';
+  position: absolute;
+  right: 38%;
+  top: 6%;
+  color: cornflowerblue;
 }
 </style>
   

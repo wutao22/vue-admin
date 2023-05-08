@@ -41,7 +41,7 @@
       @fresh="queryData"
     >
       <template v-slot:operation>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editItem(scope.row)"
               >编辑</el-button

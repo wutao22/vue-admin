@@ -17,7 +17,7 @@
       <el-table-column type="selection" width="55"> </el-table-column>
       <template v-for="(item, index) in colums">
         <slot v-if="item.slot" :name="item.slot" />
-        <el-table-column :key="index" v-bind="item" :prop="item.key" :sortable="item.sortable" :fixed="item.fixed">
+        <el-table-column :key="index" v-bind="item" :prop="item.key" :sortable="item.sortable" :fixed="item.fixed" align="center">
           <template slot-scope="scope">
             <ex-slot v-if="item.render" :render="item.render" :row="scope.row" :index="scope.$index" :column="item" />
             <span v-else>{{ scope.row[item.key] }}</span>

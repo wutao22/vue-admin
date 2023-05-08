@@ -2,120 +2,59 @@
   <el-card>
     <!-- 搜索条件 -->
     <div class="flex justify-between align-center">
-      <el-form
-        ref="condition"
-        :model="form"
-        label-width="120px"
-        class="flex align-center padding-top-lg"
-      >
+      <el-form ref="condition" :model="form" label-width="120px" class="flex align-center padding-top-lg">
         <el-form-item label="盲盒产品名">
-          <el-input
-            size="small"
-            v-model="condition.name"
-            placeholder="请输入盲盒产品名"
-          ></el-input>
+          <el-input size="small" v-model="condition.name" placeholder="请输入盲盒产品名"></el-input>
         </el-form-item>
       </el-form>
       <div class="flex justify-center align-center">
-        <el-button type="primary" @click="queryData()" size="small"
-          >搜索</el-button
-        >
+        <el-button type="primary" @click="queryData()" size="small">搜索</el-button>
         <el-button type="info" @click="reset()" size="small">重置</el-button>
       </div>
     </div>
 
-    <Table
-      :tableData="data"
-      :colums="colums"
-      :showFresh="true"
-      :showAdd="true"
-      :showDelete="true"
-      @deleteItem="deleteItem"
-      @addFile="addFile"
-      @fresh="queryData"
-    >
+    <Table :tableData="data" :colums="colums" :showFresh="true" :showAdd="true" :showDelete="true"
+      @deleteItem="deleteItem" @addFile="addFile" @fresh="queryData">
       <template v-slot:operation>
-        <el-table-column label="操作">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editItem(scope.row)"
-              >编辑</el-button
-            >
-            <el-button
-              type="text"
-              size="small"
-              slot="reference"
-              @click="deleteItem(scope.row.id)"
-              >删除</el-button
-            >
+            <el-button type="text" size="small" @click="editItem(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" slot="reference" @click="deleteItem(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </template>
       <!-- 表格插槽 -->
       <template v-slot:rotationMap>
-        <el-table-column label="盲盒产品轮播图" min-width="180px">
+        <el-table-column label="盲盒产品轮播图" min-width="180px" align="center">
           <template slot-scope="scope">
             <span class="flex flex-wrap">
-              <img
-                :src="item"
-                class="margin-lr-sm margin-tb-sm"
-                style="width: 40px; height: 40px"
-                v-for="(item, index) in scope.row.rotationMap.split(',')"
-                :key="index"
-                @click="previewImg(item)"
-              />
+              <img :src="item" class="margin-lr-sm margin-tb-sm" style="width: 40px; height: 40px"
+                v-for="(item, index) in scope.row.rotationMap.split(',')" :key="index" @click="previewImg(item)" />
             </span>
           </template>
         </el-table-column>
       </template>
     </Table>
     <div class="block margin-top flex justify-end">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page.current"
-        :page-sizes="[5, 10, 20, 40]"
-        :page-size="page.size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="page.total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page.current"
+        :page-sizes="[5, 10, 20, 40]" :page-size="page.size" layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total">
       </el-pagination>
     </div>
     <!-- 新增 -->
-    <boxListAdd
-      :show="showAdd"
-      @closed="closed()"
-      @cancel="cancel"
-    ></boxListAdd>
+    <boxListAdd :show="showAdd" @closed="closed()" @cancel="cancel"></boxListAdd>
     <!-- 编辑 -->
     <el-dialog title="编辑" :visible.sync="showEdit" @closed="closed()">
       <div>
-        <el-form
-          ref="form"
-          :model="form"
-          label-width="130px"
-          label-position="left"
-        >
+        <el-form ref="form" :model="form" label-width="130px" label-position="left">
           <el-form-item label="盲盒产品名">
-            <el-input
-              v-model="rowData.name"
-              style="width: 300px"
-              maxlength="20"
-            ></el-input>
+            <el-input v-model="rowData.name" style="width: 300px" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="盲盒产品参考价格">
-            <el-input
-              v-model="rowData.price"
-              style="width: 300px"
-              maxlength="8"
-            ></el-input>
+            <el-input v-model="rowData.price" style="width: 300px" maxlength="8"></el-input>
           </el-form-item>
           <el-form-item label="等级">
-            <el-select
-              placeholder=""
-              v-model="rowData.goodsGrade"
-              clearable
-              style="width: 300px"
-            >
+            <el-select placeholder="" v-model="rowData.goodsGrade" clearable style="width: 300px">
               <el-option label="传说" :value="1"></el-option>
               <el-option label="史诗" :value="2"></el-option>
               <el-option label="稀有" :value="3"></el-option>
@@ -126,92 +65,49 @@
           <div>
             <div class="flex">
               <el-form-item label="盲盒产品缩略图">
-                <el-input
-                  v-model="rowData.thumbnail"
-                  style="width: 300px"
-                  disabled
-                ></el-input>
+                <el-input v-model="rowData.thumbnail" style="width: 300px" disabled></el-input>
               </el-form-item>
               <div class="margin-left">
-                <input
-                  type="file"
-                  ref="file"
-                  style="display: none"
-                  v-on:change="uploadFile($event, 1)"
-                />
-                <el-button type="primary" @click="$refs.file.click()"
-                  >上传</el-button
-                >
+                <input type="file" ref="file" style="display: none" v-on:change="uploadFile($event, 1)" />
+                <el-button type="primary" @click="$refs.file.click()">上传</el-button>
               </div>
               <div class="margin-left">
                 <el-button type="info" @click="chooseGoods(1)">选择</el-button>
               </div>
             </div>
             <div style="margin-left: 15%">
-              <img
-                v-if="rowData.thumbnail"
-                :src="rowData.thumbnail"
-                class="padding-bottom"
-                alt=""
-                style="width: 100px; height: 100px"
-              />
+              <img v-if="rowData.thumbnail" :src="rowData.thumbnail" class="padding-bottom" alt=""
+                style="width: 100px; height: 100px" />
             </div>
           </div>
           <div>
             <div class="flex">
               <el-form-item label="首页产品轮播图">
-                <el-input
-                  v-model="rowData.rotationMap"
-                  style="width: 300px"
-                  disabled
-                ></el-input>
+                <el-input v-model="rowData.rotationMap" style="width: 300px" disabled></el-input>
               </el-form-item>
               <div class="margin-left">
-                <input
-                  type="file"
-                  ref="files"
-                  multiple="multiple"
-                  style="display: none"
-                  v-on:change="uploadFile($event, 2)"
-                />
-                <el-button type="primary" @click="$refs.files.click()"
-                  >上传</el-button
-                >
+                <input type="file" ref="files" multiple="multiple" style="display: none"
+                  v-on:change="uploadFile($event, 2)" />
+                <el-button type="primary" @click="$refs.files.click()">上传</el-button>
               </div>
               <div class="margin-left">
                 <el-button type="info" @click="chooseGoods(2)">选择</el-button>
               </div>
             </div>
             <div class="flex align-center flex-wrap" style="margin-left: 15%">
-              <div
-                class="flex margin-lr-sm"
-                style="align-items: baseline"
-                v-for="(item, index) in fileListImg"
-                :key="index"
-              >
+              <div class="flex margin-lr-sm" style="align-items: baseline" v-for="(item, index) in fileListImg"
+                :key="index">
                 <div class="flex flex-direction">
-                  <img
-                    v-if="item"
-                    :src="item"
-                    class=""
-                    style="width: 100px; height: 100px"
-                  />
-                  <div
-                    style="
-                      background-color: #409eff;
-                      opacity: 0.6;
-                      width: 100px;
-                      height: 20px;
-                      margin-bottom: 10px;
-                      border-radius: 4px;
-                    "
-                    class="flex justify-center align-center"
-                    @click="removeImage(item, index)"
-                  >
-                    <i
-                      class="el-icon-delete"
-                      style="color: white; text-align: center"
-                    />
+                  <img v-if="item" :src="item" class="" style="width: 100px; height: 100px" />
+                  <div style="
+                        background-color: #409eff;
+                        opacity: 0.6;
+                        width: 100px;
+                        height: 20px;
+                        margin-bottom: 10px;
+                        border-radius: 4px;
+                      " class="flex justify-center align-center" @click="removeImage(item, index)">
+                    <i class="el-icon-delete" style="color: white; text-align: center" />
                   </div>
                 </div>
               </div>
@@ -228,12 +124,7 @@
           </div>
 
           <el-form-item label="图文详情">
-            <quill-editor
-              ref="text"
-              v-model="rowData.content"
-              class="editor"
-              style="height: 200px"
-            />
+            <quill-editor ref="text" v-model="rowData.content" class="editor" style="height: 200px" />
           </el-form-item>
         </el-form>
       </div>
@@ -242,18 +133,14 @@
         <el-button type="primary" @click="confirmEdit()">确 定</el-button>
       </div>
       <!-- 子表格 -->
-      <chooseTable
-        :show="showChooseModal"
-        @close="closed"
-        @selectItem="selectItem"
-      ></chooseTable>
+      <chooseTable :show="showChooseModal" @close="closed" @selectItem="selectItem"></chooseTable>
     </el-dialog>
     <!-- 预览图片 -->
     <imageModal :show="preview" :url="url" @closed="closed"></imageModal>
   </el-card>
 </template>
   
-  <script>
+<script>
 import boxListAdd from "./components/boxListAdd.vue";
 import chooseTable from "@/components/ChooseTable";
 import axios from "axios";
@@ -560,5 +447,4 @@ export default {
 };
 </script>
   
-  <style>
-</style>
+<style></style>
